@@ -1,0 +1,115 @@
+{
+  "model_name": "GradientBoostingClassifier",
+  "target": "Transported",
+  "random_state": 42,
+  "training_rows": 8693,
+  "validation_split": {
+    "test_size": 0.2,
+    "stratify": "Transported",
+    "random_state": 42
+  },
+  "numerical_features": [
+    "Age",
+    "RoomService",
+    "FoodCourt",
+    "ShoppingMall",
+    "Spa",
+    "VRDeck",
+    "CabinNumber",
+    "GroupSize",
+    "TotalSpending"
+  ],
+  "categorical_features": [
+    "HomePlanet",
+    "CryoSleep",
+    "Destination",
+    "VIP",
+    "CabinDeck",
+    "CabinSide",
+    "HasSpending"
+  ],
+  "engineered_features": [
+    "CabinDeck",
+    "CabinNumber",
+    "CabinSide",
+    "GroupSize",
+    "TotalSpending",
+    "HasSpending"
+  ],
+  "preprocessing": "Numerical median imputation + StandardScaler; categorical most-frequent imputation + OneHotEncoder(handle_unknown='ignore').",
+  "artifact_version": "1.0",
+  "created_date": "2026-09-19",
+  "browser_inference": {
+    "artifact": "spaceship_titanic_pipeline.onnx",
+    "input_contract": {
+      "numerical": [
+        "Age",
+        "RoomService",
+        "FoodCourt",
+        "ShoppingMall",
+        "Spa",
+        "VRDeck",
+        "CabinNumber",
+        "GroupSize",
+        "TotalSpending"
+      ],
+      "categorical": [
+        "HomePlanet",
+        "CryoSleep",
+        "Destination",
+        "VIP",
+        "CabinDeck",
+        "CabinSide",
+        "HasSpending"
+      ],
+      "onnx_input_types": {
+        "Age": "float32",
+        "RoomService": "float32",
+        "FoodCourt": "float32",
+        "ShoppingMall": "float32",
+        "Spa": "float32",
+        "VRDeck": "float32",
+        "CabinNumber": "float32",
+        "GroupSize": "float32",
+        "TotalSpending": "float32",
+        "HomePlanet": "string",
+        "CryoSleep": "string",
+        "Destination": "string",
+        "VIP": "string",
+        "CabinDeck": "string",
+        "CabinSide": "string",
+        "HasSpending": "string"
+      },
+      "browser_derived_features": {
+        "CabinDeck": "First segment of Cabin split on '/'.",
+        "CabinNumber": "Numeric second segment of Cabin split on '/'; missing/malformed becomes missing.",
+        "CabinSide": "Third segment of Cabin split on '/'.",
+        "TotalSpending": "Sum of RoomService, FoodCourt, ShoppingMall, Spa, and VRDeck when at least one is supplied.",
+        "HasSpending": "String boolean of TotalSpending > 0; missing when TotalSpending is missing.",
+        "GroupSize": "Explicit browser field. PassengerId is intentionally not collected, so group membership cannot be inferred client-side."
+      },
+      "categorical_missing_replacements": {
+        "HomePlanet": "Earth",
+        "CryoSleep": "False",
+        "Destination": "TRAPPIST-1e",
+        "VIP": "False",
+        "CabinDeck": "F",
+        "CabinSide": "S",
+        "HasSpending": "True"
+      }
+    },
+    "class_labels": [
+      false,
+      true
+    ],
+    "class_order": [
+      0,
+      1
+    ],
+    "outputs": {
+      "label": "label",
+      "probabilities": "probabilities"
+    },
+    "conversion_note": "ONNX contains the fitted ColumnTransformer and GradientBoostingClassifier. The Python-only TitanicFeatureEngineer is represented by the documented browser input contract."
+  }
+}
