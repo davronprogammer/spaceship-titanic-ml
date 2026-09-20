@@ -68,3 +68,6 @@ spaceship-titanic-ml/
 **Under development.** The repository currently contains the project foundation only. No model has been trained, no accuracy has been reported, and deployment has not been completed.
 
 The next phase is **data audit and data cleaning**.
+
+
+web site url: https://space-titanic.netlify.app/
